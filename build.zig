@@ -188,13 +188,13 @@ pub fn build(b: *std.Build) void {
 
     // Dependencies for closer_mod. A framework deps/ module.
     closer_mod.addImport("closedownjobs", closedownjobs_mod);
-    closer_mod.addImport("dvui", dvui_dep.module("dvui"));
+    closer_mod.addImport("dvui", dvui_dep.module("dvui_sdl"));
     closer_mod.addImport("framers", framers_mod);
     closer_mod.addImport("modal_params", modal_params_mod);
     closer_mod.addImport("various", various_mod);
 
     // Dependencies for framers_mod. A framework deps/ module.
-    framers_mod.addImport("dvui", dvui_dep.module("dvui"));
+    framers_mod.addImport("dvui", dvui_dep.module("dvui_sdl"));
     framers_mod.addImport("main_menu", main_menu_mod);
     framers_mod.addImport("modal_params", modal_params_mod);
     framers_mod.addImport("startup", startup_mod);
@@ -216,7 +216,7 @@ pub fn build(b: *std.Build) void {
     screen_pointers_mod.addImport("channel", channel_mod);
     screen_pointers_mod.addImport("closedownjobs", closedownjobs_mod);
     screen_pointers_mod.addImport("closer", closer_mod);
-    screen_pointers_mod.addImport("dvui", dvui_dep.module("dvui"));
+    screen_pointers_mod.addImport("dvui", dvui_dep.module("dvui_sdl"));
     screen_pointers_mod.addImport("embed", embed_mod);
     screen_pointers_mod.addImport("framers", framers_mod);
     screen_pointers_mod.addImport("message", message_mod);
@@ -229,7 +229,7 @@ pub fn build(b: *std.Build) void {
     // Dependencies for startup_mod. A framework deps/ module.
     startup_mod.addImport("channel", channel_mod);
     startup_mod.addImport("closedownjobs", closedownjobs_mod);
-    startup_mod.addImport("dvui", dvui_dep.module("dvui"));
+    startup_mod.addImport("dvui", dvui_dep.module("dvui_sdl"));
     startup_mod.addImport("framers", framers_mod);
     startup_mod.addImport("modal_params", modal_params_mod);
     startup_mod.addImport("various", various_mod);
@@ -240,7 +240,7 @@ pub fn build(b: *std.Build) void {
     various_mod.addImport("counter", counter_mod);
 
     // Dependencies for widget_mod. A framework deps/ module.
-    widget_mod.addImport("dvui", dvui_dep.module("dvui"));
+    widget_mod.addImport("dvui", dvui_dep.module("dvui_sdl"));
     widget_mod.addImport("framers", framers_mod);
     widget_mod.addImport("startup", startup_mod);
     widget_mod.addImport("various", various_mod);
@@ -257,8 +257,8 @@ pub fn build(b: *std.Build) void {
         .optimize = optimize,
     });
 
-    exe.root_module.addImport("dvui", dvui_dep.module("dvui"));
-    exe.root_module.addImport("SDLBackend", dvui_dep.module("SDLBackend"));
+    exe.root_module.addImport("dvui", dvui_dep.module("dvui_sdl"));
+    //exe.root_module.addImport("SDLBackend", dvui_dep.module("SDLBackend"));
 
     // Framework modules.
     exe.root_module.addImport("channel", channel_mod);

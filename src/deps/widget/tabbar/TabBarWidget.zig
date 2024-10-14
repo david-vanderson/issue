@@ -110,7 +110,7 @@ pub fn verticalTabScroller(src: std.builtin.SourceLocation) !*dvui.ScrollAreaWid
 
 // The caller owns the returned value.
 pub fn horizontalTabBar(src: std.builtin.SourceLocation) !*TabBarWidget {
-    var ret = try dvui.currentWindow().arena.create(TabBarWidget);
+    var ret = try dvui.currentWindow().arena().create(TabBarWidget);
     ret.* = TabBarWidget.init(src, .horizontal);
     try ret.install(.{});
     return ret;
@@ -118,7 +118,7 @@ pub fn horizontalTabBar(src: std.builtin.SourceLocation) !*TabBarWidget {
 
 // The caller owns the returned value.
 pub fn verticalTabBar(src: std.builtin.SourceLocation) !*TabBarWidget {
-    var ret = try dvui.currentWindow().arena.create(TabBarWidget);
+    var ret = try dvui.currentWindow().arena().create(TabBarWidget);
     ret.* = TabBarWidget.init(src, .vertical);
     try ret.install(.{});
     return ret;
@@ -179,7 +179,7 @@ pub fn screenRectScale(self: *TabBarWidget, rect: dvui.Rect) dvui.RectScale {
 }
 
 pub fn minSizeForChild(self: *TabBarWidget, s: dvui.Size) void {
-    self.wd.minSizeMax(self.wd.padSize(s));
+    self.wd.minSizeMax(self.wd.options.padSize(s));
 }
 
 pub fn processEvent(self: *TabBarWidget, e: *dvui.Event, bubbling: bool) void {

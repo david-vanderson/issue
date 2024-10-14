@@ -4,7 +4,7 @@
 /// You are free to edit this file.
 const std = @import("std");
 const dvui = @import("dvui");
-const SDLBackend = @import("SDLBackend");
+const SDLBackend = dvui.backend;
 const _backend_ = @import("backend/api.zig");
 const _channel_ = @import("channel");
 const _closer_ = @import("closer");
@@ -38,7 +38,7 @@ var show_dialog_outside_frame: bool = false;
 /// - render frames only when needed
 pub fn main() !void {
     // init SDL sdl_backend (creates OS window)
-    var sdl_backend = try SDLBackend.init(.{
+    var sdl_backend = try SDLBackend.initWindow(.{
         .allocator = gpa,
         .size = .{ .w = 500.0, .h = 400.0 },
         // .min_size = .{ .w = 500.0, .h = 400.0 },
@@ -49,7 +49,7 @@ pub fn main() !void {
     defer sdl_backend.deinit();
 
     // init dvui Window (maps onto a single OS window)
-    var win = try dvui.Window.init(@src(), 0, gpa, sdl_backend.backend());
+    var win = try dvui.Window.init(@src(), gpa, sdl_backend.backend(), .{});
     // win.content_scale = sdl_backend.initial_scale * 1.5;
     defer win.deinit();
 
@@ -69,7 +69,7 @@ pub fn main() !void {
 
     // Initialize the front end.
     // See src/deps/startup/api.zig
-    const dark_theme = &dvui.Adwaita.dark;
+    const dark_theme = win.themes.getPtr("Adwaita Dark").?;
     var startup_frontend: _startup_.Frontend = _startup_.Frontend{
         .allocator = gpa,
         .window = &win,
@@ -166,7 +166,9 @@ pub fn main() !void {
 
         // if dvui widgets might not cover the whole window, then need to clear
         // the previous frame's render
-        sdl_backend.clear();
+        //sdl_backend.clear();
+        _ = SDLBackend.c.SDL_SetRenderDrawColor(sdl_backend.renderer, 0, 0, 0, 255);
+        _ = SDLBackend.c.SDL_RenderClear(sdl_backend.renderer);
 
         {
             // Frame the front-end.
